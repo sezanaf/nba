@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +24,7 @@ Route::get('/', function () {
 Route::get('/teams', [TeamController::class, 'index']);
 Route::get('/teams/{team}', [TeamController::class, 'show'])->name('team');
 Route::get('/players/{player}', [PlayerController::class, 'show'])->name('player');
+Route::post('/teams/{team}/comments', [CommentController::class, 'store'])->middleware('auth');
 
 Route::group([ 'middleware' => 'guest' ], function () {
     Route::get('/register', [AuthController::class, 'getRegisterForm']);
