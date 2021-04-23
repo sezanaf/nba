@@ -24,10 +24,14 @@ Route::get('/teams', [TeamController::class, 'index']);
 Route::get('/teams/{team}', [TeamController::class, 'show'])->name('team');
 Route::get('/players/{player}', [PlayerController::class, 'show'])->name('player');
 
-Route::get('/register', [AuthController::class, 'getRegisterForm']);
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/logout', [AuthController::class, 'logout']);
-Route::get('/login', [AuthController::class, 'getLoginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
+Route::group([ 'middleware' => 'guest' ], function () {
+    Route::get('/register', [AuthController::class, 'getRegisterForm']);
+    Route::post('/register', [AuthController::class, 'register']);
+    Route::get('/login', [AuthController::class, 'getLoginForm'])->name('login');
+    Route::post('/login', [AuthController::class, 'login']);
+});
+
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');;
+
 
 
